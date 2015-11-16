@@ -1,0 +1,72 @@
+Notes:
+  - If you want Angular to use full version of jQuery instead of jqlite, include jQuert before Angular
+
+There are 4 different way to specify directive in angular:
+1. Directive as an attribute. For eg. ng-app, ng-controller etc
+2. Creating a new custom tag/element. For eg. <my-directive></mydirective>
+3. Directive as a class. For eg. <div class="my-directive"></div>
+4. Directive as a comment. For eg. <!-- directive: my-directive -->
+
+1 & 2 are the most common and recommended ways to use and write directive in angular
+3 & 4 are only used when working with older browser or IE and not recommended to use.
+
+As HTML are not case-sensative, cases in directive names are specified with - (dash) also called snake caseing
+Can also use _ (underscore) and : (color) and can also mix them
+
+angular has default restriction for directive:
+1. if angular version is 1.2.x or below then a directive can be only attribute by default
+2. if angular version is 1.3.x or above then a directive can be attribute or tag/element by default
+
+Directive 'restrict' property:
+A = Attribute
+E = Element
+C = Class
+M = Comment
+These can be mixed for eg. AE
+
+'template' property is reference to string which can also include HTML
+
+data binding can be done using {{}}
+
+'templateUrl' property is reference to HTML template
+
+There are 3 different types of Directive:
+1. Components directive (Component based, for eg. search, menu etc.), mostly implemented by custom element
+2. Decorators directive (for eg. ng-click, ng-show, ng-hide etc.), mostly implemented by attribute
+3. Structural/Temlating directive (for eg. ng-repeat etc.)
+
+Setting 'replace' property to 'true' will replace the directive element itself from the page and leave with just the contents of the templates, remember it needs common root element in the template
+For modern browser, custom elements are not a problem, in-fact angular 1.3 or above has depricated 'replace' property. Using replace is not consider as best practices.
+
+It is recommended to prefix your custom directive, For eg. nma-, x- etc.
+
+By default, directives share the $scope with parent controller
+if you want to create a non-share $scope within directive, then just add 'scope': true property in directive it called inherited scope, inherited scope will have $parent property.
+if we use {} instead of true, will create an isolated scope
+
+----------------------------------------------- Shared $scope (Default)
+Parent { $scope: user
+  Directive with Share scope -> $scope: user
+}
+----------------------------------------------- Inherited $scope
+Parent { $scope: user
+  Directive with Inherited scope -> $scope: user {
+    $scope.data = Private to Inherited scope
+  }
+}
+----------------------------------------------- Isolated $scope
+Parent { $scope: user }
+Directive with Isolated scope [NOT->][need special binding to access parent scope] $scope: user {
+  $scope.data = Private to Inherited scope
+}
+-----------------------------------------------
+Angular will not allowed 2 directive on the same element that ask for isolated scope
+But in angular 1.2.x will work if that ask for inherited scope and for angular 1.3.x will not work if that ask for inherited scope
+
+Setting 2 directive on a single element will use the same $scope, we should avoid this as the can be chance to override data/variables etc. for best practices try not to use 2 directing with inherited scope on same element
+
+"=", // This will tell angular that we are just going to pass a data-set
+"=<attribute-name>"
+"@" // This will tell angular that we are just going to pass a data value as string
+"@<attribute-name>"
+"&<attribute-name>" bind functions
